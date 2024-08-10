@@ -9,9 +9,9 @@ import './app.css';
 function App() {
 
   const data = [                            // // База данных, имитация сервера
-    {name: 'Dio B.', salary: 800, increase: true},
-    {name: 'Okujasu N.', salary: 2300, increase: false},
-    {name: 'Jotaro K.', salary: 5000, increase: false},
+    {name: 'Dio B.', salary: 800, increase: true, id: 1},
+    {name: 'Okujasu N.', salary: 2300, increase: false, id: 2},
+    {name: 'Jotaro K.', salary: 5000, increase: false, id: 3},
   ]
 
   return (

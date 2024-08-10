@@ -5,8 +5,9 @@ import './employees-list.css';
 const EmployeesList = ({data}) => {             // // Помещаем в виде props нашу базу данных
 
     const elements = data.map(item => {  // // Перебираем массив и формируем компонент. Разворачиваем в нем props с помошью spread
+        const {id, ...itemProps} = item;     // // Дестр пропсы, отдельно достаем id каждого элем и остальные пропсы помещ в itemProps
         return (
-            <EmployeesListItem {...item}/>
+            <EmployeesListItem key={id} {...itemProps}/>
         )
     });
 
