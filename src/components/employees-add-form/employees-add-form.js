@@ -17,15 +17,32 @@ class EmployeesAddForm extends Component {
         })
     }
 
+    onSubmit = (e)=> {                              // // Метод принимающий данные в форму для добавления сотрудника (шаг2)
+        e.preventDefault();
+        const {name, salary} = this.state;
+        if(name && salary) {                        // // Если в поле name salary ввели данные сотрудник добавится
+            this.props.addEmployee(name, salary);
+            this.setState({                                // // Изменяем состояние 
+                name: '',
+                salary: ''
+            })
+        } else {
+            alert('Введіть данні співробітника!')
+        }
+    }
+
     render() {
         const {name, salary} = this.state;
+        const {addEmployee} = this.props;
 
 
         return (
             <div className="app-add-form">
                 <h3>Добавьте нового сотрудника</h3>
                 <form
-                    className="add-form d-flex">
+                    className="add-form d-flex"
+                    onSubmit={this.onSubmit}                    // // Добавляем метод в форму (важно: не на кнопку а в форму)
+                >
                     <input type="text"
                         className="form-control new-post-label"
                         placeholder="Как его зовут?"
