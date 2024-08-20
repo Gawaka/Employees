@@ -13,9 +13,9 @@ class App extends Component {
     super(props);
     this.state = {
       data: [                            // // База данных, имитация сервера
-        {name: 'Dio B.', salary: 800, increase: true, id: 1},
-        {name: 'Okujasu N.', salary: 2300, increase: false, id: 2},
-        {name: 'Jotaro K.', salary: 5000, increase: false, id: 3},
+        {name: 'Dio B.', salary: 800, increase: false, rise: false, id: 1},
+        {name: 'Okujasu N.', salary: 2300, increase: false, rise: false, id: 2},
+        {name: 'Jotaro K.', salary: 5000, increase: false, rise: false, id: 3},
       ]
     }
     this.maxId = 4;
@@ -30,7 +30,7 @@ class App extends Component {
       id: this.maxId++
     };
 
-    this.setState(({data})=>({
+    this.setState(({data})=>({ //Создает new arr, который включает существ. элем из data, добавляет элемент newEmployee в конец arr.
       data: [...data, newEmployee]
     }))
   }
@@ -44,12 +44,50 @@ class App extends Component {
     })
   }
 
-  render() {
-    const {data} = this.state;
+  onToggleProp = (prop, id)=> {                 // // Объеденяем два метода в один onToggleIncrease/Rise
+    this.setState(({data})=> ({
+      data: data.map(item=> {
+        if (item.id === id) {
+          return {...item, [prop]: !item[prop]} // [prop] приходит для каждого варианта, с помошью data-attribute в emp-list-it 
+        }
+        return item;
+      })
+    }))
+  }
 
+  // onToggleIncrease = (id)=> {
+  //   this.setState(({data})=> ({
+  //     data: data.map(item => {                        // перебираем массив
+  //       if (item.id === id) {                         // если наши id совпали, тогда возвращаем обдж
+  //         return {...item,  increase: !item.increase} // разворачиваем obj item в котором будет тоглиться increase
+  //       }
+  //       return item;                                  // // Если условие не выполнилось то возвращаем item
+  //     })
+  //   }))
+  // }
+
+  // onToggleRise = (id)=> {
+  //   this.setState(({data})=> ({
+  //     data: data.map(item => {                        // перебираем массив
+  //       if (item.id === id) {                         // если наши id совпали, тогда возвращаем обдж
+  //         return {...item,  rise: !item.rise}         // разворачиваем obj item в котором будет тоглиться increase
+  //       }
+  //       return item;                                  // // Если условие не выполнилось то возвращаем item
+  //     })
+  //   }))
+  // }
+
+  render() {
+    const employees = this.state.data.length;                           // // Получаем длинну массива (кол.во сотрудников)
+    const increased = this.state.data.filter(item => item.increase).length;
+    const {data} = this.state;
+    
     return (
       <div className="app">
-          <AppInfo />
+          <AppInfo 
+            employees={employees} 
+            increased={increased}
+          />
   
           <div className="search-panel">
               <SearchPanel/>
@@ -59,6 +97,7 @@ class App extends Component {
           <EmployeesList 
             data={data}                         /* Передаем массив data в компонент */
             onDelete={this.deleteItem}          /* Передаем prop в компонент ниже по иерархии */
+            onToggleProp={this.onToggleProp}
           />
           <EmployeesAddForm addEmployee={this.addEmployee}/>        {/* передаем новый метод в компонент через пропсы */}
       </div>
