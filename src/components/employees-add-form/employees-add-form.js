@@ -38,28 +38,28 @@ class EmployeesAddForm extends Component {
 
         return (
             <div className="app-add-form">
-                <h3>Добавьте нового сотрудника</h3>
+                <h3>Додайте нового співробітника</h3>
                 <form
                     className="add-form d-flex"
                     onSubmit={this.onSubmit}                    // // Добавляем метод в форму (важно: не на кнопку а в форму)
                 >
                     <input type="text"
                         className="form-control new-post-label"
-                        placeholder="Как его зовут?"
+                        placeholder="Як його звуть?"
                         name='name'                              /* Добавляем дата атрибут */
                         value={name}
                         onChange={this.onValueChange}
                     />
                     <input type="number"
                         className="form-control new-post-label"
-                        placeholder="З/П в $?"
+                        placeholder="З/П у $?"
                         name='salary'                             /* Добавляем дата атрибут */
                         value={salary}
                         onChange={this.onValueChange}
                     />
     
                     <button type="submit"
-                            className="btn btn-outline-light">Добавить</button>
+                            className="btn btn-outline-light">Додати</button>
                 </form>
             </div>
         )
