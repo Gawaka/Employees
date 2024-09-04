@@ -11,20 +11,36 @@ class EmployeesAddForm extends Component {
     }
 
     onValueChange = (e)=> {
-        e.preventDefault();
         this.setState({
             [e.target.name]: e.target.value
         })
     }
 
+    onSubmit = (e)=> {
+        e.preventDefault();
+        const {name, salary} = this.state;
+        if (name && salary) {
+            this.props.addItem(name, salary);
+            this.setState({
+                name: '',
+                salary: '',
+            })
+        } else {
+            alert('Введіть коректні данні!')
+        }
+    }
+
     render() {
-        const {name, salary} = this.state
+        const {addItem} = this.props;
+        const {name, salary} = this.state;
 
         return (
             <div className="app-add-form">
                 <h3>Добавьте нового сотрудника</h3>
                 <form
-                    className="add-form d-flex">
+                    className="add-form d-flex"
+                    onSubmit={this.onSubmit}
+                >
                     <input type="text"
                         className="form-control new-post-label"
                         placeholder="Как его зовут?"

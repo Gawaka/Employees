@@ -13,29 +13,62 @@ class App extends Component {
     super(props);
     this.state = {
       data: [
-        {name: 'Jotaro Kujo', salary: 3000, id:1, increase: true},
-        {name: 'Dio Brando', salary: 5000, id:2, increase: false},
-        {name: 'Cezar Ceppeli', salary: 2000, id:3, increase: false}
+        {name: 'Jotaro Kujo', salary: 3000, id:1, increase: true, rise: true},
+        {name: 'Dio Brando', salary: 5000, id:2, increase: false, rise: false},
+        {name: 'Cezar Ceppeli', salary: 2000, id:3, increase: false, rise: false}
       ]
+    }
+    this.maxId = 4;
+  }
+
+  addItem = (name, salary)=> {
+    if (name && salary) {
+      const newEmployee = {
+        name,
+        salary,
+        increase: false,
+        rise: false,
+        id: this.maxId++
+      }
+
+      this.setState(({data})=> ({
+        data: [...data, newEmployee]
+      }))
     }
   }
 
   deleteItem = (id)=> {
     this.setState(({data})=> {
       return {
-        data: data.filter(item=> item.id !== id) /// // / // / / ЗАКОМИТИТЬ
+        data: data.filter(item=> item.id !== id)
       }
       
     })
     
   }
 
+  onToggleProp = (id, prop)=> {
+    this.setState(({data})=> ({
+      data: data.map(item=> {
+        if (item.id === id) {
+          return {...item, [prop]: !item[prop]}
+        }
+        return item;
+      })
+    }))
+  }
+
   render() {
     const {data} = this.state;
+    const employees = data.length;
+    const increased = data.filter(item=> item.increase).length;
 
     return (
       <div className="app">
-          <AppInfo />
+          <AppInfo 
+            employees={employees}
+            increased={increased}
+          />
   
           <div className="search-panel">
               <SearchPanel/>
@@ -45,8 +78,9 @@ class App extends Component {
           <EmployeesList 
             data={data}
             onDelete={this.deleteItem}
+            onToggleProp={this.onToggleProp}
           />
-          <EmployeesAddForm/>
+          <EmployeesAddForm addItem={this.addItem}/>
       </div>
     );
   }
